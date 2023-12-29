@@ -19,10 +19,27 @@ RUN addgroup -S -g 1000 swish && \
 # Set workdir
 WORKDIR /services/swish/swish-acquisition/
 
+COPY . .
+
+ENV PYTHONUNBUFFERED=1 \
+    # prevents python creating .pyc files
+    PYTHONDONTWRITEBYTECODE=1 \
+    # poetry
+    # https://python-poetry.org/docs/configuration/#using-environment-variables
+    POETRY_VERSION=1.7.1 \
+    # do not ask any interactive question
+    POETRY_NO_INTERACTION=1 \
+    # no virtual env need for container
+    POETRY_VIRTUALENVS_CREATE=false
+
+# prepend poetry and venv to path
+ENV PATH="$POETRY_HOME/bin:$PATH"
+
 # install dependencies
 RUN python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
-    python -m pip install --upgrade pip && \
-    python -m pip install poetry==1.7.1 && \
+    python -m pip install --no-cache --upgrade pip && \
+    python -m pip install --no-cache poetry==${POETRY_VERSION} && \
+    poetry install --no-cache && \
     find /usr/local/ -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 
 # Add PYTHONPATH
