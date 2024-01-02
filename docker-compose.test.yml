@@ -5,3 +5,7 @@ services:
   swish-acquisition-test:
     image: swish-acquisition:${IMAGE_TAG:-latest}
     command: make test
+
+  swish-acquisition-lint:
+    image: swish-acquisition:${IMAGE_TAG:-latest}
+    command: make lint

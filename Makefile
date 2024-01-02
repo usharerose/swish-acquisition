@@ -13,7 +13,13 @@ test:
 	pytest -sv tests/
 
 testd: build clean-test-container
-	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-test
+	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-test swish-acquisition-test
+
+lint:
+	flake8 swish_acquisition/ tests/
+
+lintd: build clean-test-container
+	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-lint swish-acquisition-lint
 
 clean-pyc:
 	# clean all pyc files
@@ -23,3 +29,7 @@ clean-pyc:
 clean-container:
 	# stop and remove useless containers
 	docker-compose down --remove-orphans
+
+clean-test-container:
+	# stop and remove useless containers defined for testing
+	docker-compose --file docker-compose.test.yml down --remove-orphans
