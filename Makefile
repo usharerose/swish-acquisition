@@ -9,6 +9,12 @@ run: build clean-container
 ssh:
 	docker-compose exec swish-acquisition-run /bin/sh
 
+test:
+	pytest -sv tests/
+
+testd: build clean-test-container
+	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-test
+
 clean-pyc:
 	# clean all pyc files
 	find . -name '__pycache__' | xargs rm -rf | cat

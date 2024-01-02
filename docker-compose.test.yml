@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+
+  swish-acquisition-test:
+    image: swish-acquisition:${IMAGE_TAG:-latest}
+    command: make test
