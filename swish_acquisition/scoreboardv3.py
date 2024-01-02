@@ -58,7 +58,7 @@ class ScoreboardV3Endpoint:
         # TODO: add try-catch and logging when raise exceptions
         try:
             response = self._send_api_request(**request_args)
-        except (ConnectTimeout, ReadTimeout) as e:
+        except (ConnectTimeout, ReadTimeout) as e:  # NOQA
             pass
         if response and response.status_code != HTTPStatus.OK:
             response = None
