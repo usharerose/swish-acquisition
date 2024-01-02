@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "version": 1,
+    "request": "http://nba.cloud/league/00/2022/05/29/scoreboard?Format=json",
+    "time": "2023-08-29T18:09:46.946Z"
+  },
+  "scoreboard": {
+    "gameDate": "2022-05-29",
+    "leagueId": "00",
+    "leagueName": "National Basketball Association",
+    "games": [
+      {
+        "gameId": "0042100307",
+        "gameCode": "20220529/BOSMIA",
+        "gameStatus": 3,
+        "gameStatusText": "Final",
+        "period": 4,
+        "gameClock": "",
+        "gameTimeUTC": "2022-05-30T00:30:00Z",
+        "gameEt": "2022-05-29T20:30:00Z",
+        "regulationPeriods": 4,
+        "seriesGameNumber": "Game 7",
+        "seriesText": "BOS wins 4-3",
+        "ifNecessary": false,
+        "seriesConference": "East",
+        "poRoundDesc": "Conf. Finals",
+        "gameSubtype": "",
+        "gameLeaders": {
+          "homeLeaders": {
+            "personId": 202710,
+            "name": "Jimmy Butler",
+            "playerSlug": "jimmy-butler",
+            "jerseyNum": "22",
+            "position": "F",
+            "teamTricode": "MIA",
+            "points": 35,
+            "rebounds": 9,
+            "assists": 1
+          },
+          "awayLeaders": {
+            "personId": 1628369,
+            "name": "Jayson Tatum",
+            "playerSlug": "jayson-tatum",
+            "jerseyNum": "0",
+            "position": "F-G",
+            "teamTricode": "BOS",
+            "points": 26,
+            "rebounds": 10,
+            "assists": 6
+          }
+        },
+        "teamLeaders": {
+          "homeLeaders": {
+            "personId": 202710,
+            "name": "Jimmy Butler",
+            "playerSlug": "jimmy-butler",
+            "jerseyNum": "22",
+            "position": "F",
+            "teamTricode": "MIA",
+            "points": 27.4,
+            "rebounds": 7.4,
+            "assists": 4.6
+          },
+          "awayLeaders": {
+            "personId": 1628369,
+            "name": "Jayson Tatum",
+            "playerSlug": "jayson-tatum",
+            "jerseyNum": "0",
+            "position": "F-G",
+            "teamTricode": "BOS",
+            "points": 25.6,
+            "rebounds": 6.7,
+            "assists": 6.2
+          },
+          "seasonLeadersFlag": 0
+        },
+        "broadcasters": {
+          "nationalBroadcasters": [
+            {
+              "broadcasterId": 2,
+              "broadcastDisplay": "ESPN",
+              "broadcasterTeamId": -1
+            }
+          ],
+          "nationalRadioBroadcasters": [
+            {
+              "broadcasterId": 3,
+              "broadcastDisplay": "ESPNR",
+              "broadcasterTeamId": -1
+            }
+          ],
+          "nationalOttBroadcasters": [],
+          "homeTvBroadcasters": [],
+          "homeRadioBroadcasters": [
+            {
+              "broadcasterId": 1588,
+              "broadcastDisplay": "WAXY/WRTO",
+              "broadcasterTeamId": 1610612748
+            }
+          ],
+          "homeOttBroadcasters": [],
+          "awayTvBroadcasters": [],
+          "awayRadioBroadcasters": [
+            {
+              "broadcasterId": 1471,
+              "broadcastDisplay": "WBZ-FM",
+              "broadcasterTeamId": 1610612738
+            }
+          ],
+          "awayOttBroadcasters": []
+        },
+        "homeTeam": {
+          "teamId": 1610612748,
+          "teamName": "Heat",
+          "teamCity": "Miami",
+          "teamTricode": "MIA",
+          "teamSlug": "heat",
+          "wins": 3,
+          "losses": 4,
+          "score": 96,
+          "seed": 1,
+          "inBonus": null,
+          "timeoutsRemaining": 0,
+          "periods": [
+            {
+              "period": 1,
+              "periodType": "REGULAR",
+              "score": 17
+            },
+            {
+              "period": 2,
+              "periodType": "REGULAR",
+              "score": 32
+            },
+            {
+              "period": 3,
+              "periodType": "REGULAR",
+              "score": 26
+            },
+            {
+              "period": 4,
+              "periodType": "REGULAR",
+              "score": 21
+            }
+          ]
+        },
+        "awayTeam": {
+          "teamId": 1610612738,
+          "teamName": "Celtics",
+          "teamCity": "Boston",
+          "teamTricode": "BOS",
+          "teamSlug": "celtics",
+          "wins": 4,
+          "losses": 3,
+          "score": 100,
+          "seed": 2,
+          "inBonus": null,
+          "timeoutsRemaining": 0,
+          "periods": [
+            {
+              "period": 1,
+              "periodType": "REGULAR",
+              "score": 32
+            },
+            {
+              "period": 2,
+              "periodType": "REGULAR",
+              "score": 23
+            },
+            {
+              "period": 3,
+              "periodType": "REGULAR",
+              "score": 27
+            },
+            {
+              "period": 4,
+              "periodType": "REGULAR",
+              "score": 18
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

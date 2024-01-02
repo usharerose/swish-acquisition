@@ -7,7 +7,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+ipython = "8.19.0"
+pytest = "7.4.3"
+pydantic = "2.5.2"
+requests = "2.31.0"
 
+[[tool.poetry.source]]
+name = "accelerated source"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 [build-system]
 requires = ["poetry-core"]
