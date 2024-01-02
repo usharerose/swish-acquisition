@@ -63,6 +63,8 @@ class BroadCaster(BaseModel):
     """
     broadcasterId: int
     broadcastDisplay: str
+    # -1 for national broadcaster
+    broadcasterTeamId: int
 
 
 class BroadCasters(BaseModel):
