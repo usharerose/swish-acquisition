@@ -9,3 +9,7 @@ services:
   swish-acquisition-lint:
     image: swish-acquisition:${IMAGE_TAG:-latest}
     command: make lint
+
+  swish-acquisition-type-hint:
+    image: swish-acquisition:${IMAGE_TAG:-latest}
+    command: make type-hint

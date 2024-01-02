@@ -21,6 +21,12 @@ lint:
 lintd: build clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-lint swish-acquisition-lint
 
+type-hint:
+	mypy swish_acquisition/
+
+type-hintd: build clean-test-container
+	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-type-hint swish-acquisition-type-hint
+
 clean-pyc:
 	# clean all pyc files
 	find . -name '__pycache__' | xargs rm -rf | cat
