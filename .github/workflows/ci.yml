@@ -9,6 +9,16 @@ on:
       - master
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Run lint check
+        run: |
+          make lintd
+
   unit-test:
     runs-on: ubuntu-latest
     steps:
