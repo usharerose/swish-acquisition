@@ -2,6 +2,12 @@ version: '3.7'
 
 services:
 
+  swish-acquisition-build-dev:
+    build:
+      context: .
+      target: dev
+    image: swish-acquisition-dev:${IMAGE_TAG:-latest}
+
   swish-acquisition-build:
     build:
       context: .
@@ -9,7 +15,7 @@ services:
     image: swish-acquisition:${IMAGE_TAG:-latest}
 
   swish-acquisition-run:
-    image: swish-acquisition:${IMAGE_TAG:-latest}
+    image: swish-acquisition-dev:${IMAGE_TAG:-latest}
     volumes:
       - ./:/services/swish/swish-acquisition/
     command: sleep infinity

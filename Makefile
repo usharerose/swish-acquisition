@@ -1,9 +1,9 @@
 .PHONY: clean-pyc
 
-build: clean-pyc
-	docker-compose build swish-acquisition-build
+build-dev: clean-pyc
+	docker-compose build swish-acquisition-build-dev
 
-run: build clean-container
+run: build-dev clean-container
 	docker-compose up -d swish-acquisition-run
 
 ssh:
@@ -12,19 +12,19 @@ ssh:
 test:
 	pytest -sv tests/
 
-testd: build clean-test-container
+testd: build-dev clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-test swish-acquisition-test
 
 lint:
 	flake8 swish_acquisition/ tests/
 
-lintd: build clean-test-container
+lintd: build-dev clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-lint swish-acquisition-lint
 
 type-hint:
 	mypy swish_acquisition/
 
-type-hintd: build clean-test-container
+type-hintd: build-dev clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-type-hint swish-acquisition-type-hint
 
 clean-pyc:
