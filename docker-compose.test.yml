@@ -2,14 +2,20 @@ version: '3.7'
 
 services:
 
+  swish-acquisition-test-base:
+    image: swish-acquisition-dev:${IMAGE_TAG:-latest}
+
   swish-acquisition-test:
-    image: swish-acquisition:${IMAGE_TAG:-latest}
+    extends:
+      service: swish-acquisition-test-base
     command: make test
 
   swish-acquisition-lint:
-    image: swish-acquisition:${IMAGE_TAG:-latest}
+    extends:
+      service: swish-acquisition-test-base
     command: make lint
 
   swish-acquisition-type-hint:
-    image: swish-acquisition:${IMAGE_TAG:-latest}
+    extends:
+      service: swish-acquisition-test-base
     command: make type-hint
