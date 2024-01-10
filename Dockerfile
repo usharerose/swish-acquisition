@@ -39,19 +39,30 @@ ENV PATH="$POETRY_HOME/bin:$PATH"
 RUN python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
     python -m pip install --no-cache --upgrade pip && \
     python -m pip install --no-cache poetry==${POETRY_VERSION} && \
-    poetry install --no-cache && \
     find /usr/local/ -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 
 # Add PYTHONPATH
 ENV PYTHONPATH /services/swish/swish-acquisition/
 
+FROM builder AS prod-base
+
+WORKDIR /services/swish/swish-acquisition/
+
+RUN poetry install --no-cache --only main
+
+FROM builder AS dev-base
+
+WORKDIR /services/swish/swish-acquisition/
+
+RUN poetry install --no-cache
+
 FROM python:3.11-alpine3.18 AS prod
 
-COPY --from=builder /etc/ /etc/
-COPY --from=builder /usr/ /usr/
-COPY --from=builder --chown=swish:swish --chmod=750 /home/swish/ /home/swish/
-COPY --from=builder --chown=swish:swish --chmod=750 /services/swish/swish-acquisition/ /services/swish/swish-acquisition/
-COPY --from=builder /sbin/ /sbin/
+COPY --from=prod-base /etc/ /etc/
+COPY --from=prod-base /usr/ /usr/
+COPY --from=prod-base --chown=swish:swish --chmod=750 /home/swish/ /home/swish/
+COPY --from=prod-base --chown=swish:swish --chmod=750 /services/swish/swish-acquisition/ /services/swish/swish-acquisition/
+COPY --from=prod-base /sbin/ /sbin/
 
 # Set workdir
 WORKDIR /services/swish/swish-acquisition/
@@ -62,4 +73,19 @@ USER swish
 # Tini is now available at /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--"]
 
-CMD ["sleep", "infinity"]
+FROM python:3.11-alpine3.18 AS dev
+
+COPY --from=dev-base /etc/ /etc/
+COPY --from=dev-base /usr/ /usr/
+COPY --from=dev-base --chown=swish:swish --chmod=750 /home/swish/ /home/swish/
+COPY --from=dev-base --chown=swish:swish --chmod=750 /services/swish/swish-acquisition/ /services/swish/swish-acquisition/
+COPY --from=dev-base /sbin/ /sbin/
+
+# Set workdir
+WORKDIR /services/swish/swish-acquisition/
+
+# User must be swish
+USER swish
+
+# Tini is now available at /sbin/tini
+ENTRYPOINT ["/sbin/tini", "--"]
