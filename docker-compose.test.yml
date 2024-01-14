@@ -8,6 +8,9 @@ services:
   swish-acquisition-test:
     extends:
       service: swish-acquisition-test-base
+    user: root
+    volumes:
+      - ./coverage_report:/services/swish/swish-acquisition/coverage_report
     command: make test
 
   swish-acquisition-lint:

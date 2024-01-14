@@ -1,6 +1,6 @@
-.PHONY: clean-pyc
+.PHONY: clean-pyc clean-coverage-report
 
-build-dev: clean-pyc
+build-dev: clean-pyc clean-coverage-report
 	docker-compose build swish-acquisition-build-dev
 
 run: build-dev clean-container
@@ -10,7 +10,7 @@ ssh:
 	docker-compose exec swish-acquisition-run /bin/sh
 
 test:
-	pytest -sv tests/
+	python -m pytest -sv --cov-report term-missing --cov-report html:coverage_report --cov-report xml:coverage_report/cov.xml --junitxml=coverage_report/pytest.xml --cov=swish_acquisition/ --disable-warnings -p no:cacheprovider tests/
 
 testd: build-dev clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-test swish-acquisition-test
@@ -22,7 +22,7 @@ lintd: build-dev clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-lint swish-acquisition-lint
 
 type-hint:
-	mypy swish_acquisition/
+	python -m mypy swish_acquisition/
 
 type-hintd: build-dev clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-type-hint swish-acquisition-type-hint
@@ -31,6 +31,9 @@ clean-pyc:
 	# clean all pyc files
 	find . -name '__pycache__' | xargs rm -rf | cat
 	find . -name '*.pyc' | xargs rm -f | cat
+
+clean-coverage-report:
+	rm -rf ./coverage_report .coverage
 
 clean-container:
 	# stop and remove useless containers

@@ -39,3 +39,21 @@ jobs:
       - name: Run unittest cases
         run: |
           make testd
+      - name: Test coverage comment
+        uses: MishaKav/pytest-coverage-comment@v1.1.50
+        id: coverageComment
+        with:
+          junitxml-path: coverage_report/pytest.xml
+          pytest-xml-coverage-path: coverage_report/cov.xml
+      - name: Check the output coverage
+        run: |
+          echo "Coverage Percantage - ${{ steps.coverageComment.outputs.coverage }}"
+          echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
+      
+          echo "Coverage Warnings - ${{ steps.coverageComment.outputs.warnings }}"
+      
+          echo "Coverage Errors - ${{ steps.coverageComment.outputs.errors }}"
+          echo "Coverage Failures - ${{ steps.coverageComment.outputs.failures }}"
+          echo "Coverage Skipped - ${{ steps.coverageComment.outputs.skipped }}"
+          echo "Coverage Tests - ${{ steps.coverageComment.outputs.tests }}"
+          echo "Coverage Time - ${{ steps.coverageComment.outputs.time }}"
