@@ -10,7 +10,7 @@ ssh:
 	docker-compose exec swish-acquisition-run /bin/sh
 
 test:
-	python -m pytest -sv --cov-report term-missing --cov-report html:coverage_report --cov=swish_acquisition/ --disable-warnings -p no:cacheprovider tests/
+	python -m pytest -sv --cov-report term-missing --cov-report html:coverage_report --cov-report xml:coverage_report/cov.xml --junitxml=coverage_report/pytest.xml --cov=swish_acquisition/ --disable-warnings -p no:cacheprovider tests/
 
 testd: build-dev clean-test-container
 	docker-compose --file docker-compose.test.yml up --exit-code-from swish-acquisition-test swish-acquisition-test

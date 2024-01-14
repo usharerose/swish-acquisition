@@ -49,7 +49,6 @@ jobs:
         run: |
           echo "Coverage Percantage - ${{ steps.coverageComment.outputs.coverage }}"
           echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
-          echo "Summary Report - ${{ steps.coverageComment.outputs.summaryReport }}"
       
           echo "Coverage Warnings - ${{ steps.coverageComment.outputs.warnings }}"
       
@@ -58,4 +57,3 @@ jobs:
           echo "Coverage Skipped - ${{ steps.coverageComment.outputs.skipped }}"
           echo "Coverage Tests - ${{ steps.coverageComment.outputs.tests }}"
           echo "Coverage Time - ${{ steps.coverageComment.outputs.time }}"
-          echo "Not Success Test Info - ${{ steps.coverageComment.outputs.notSuccessTestInfo }}"
