@@ -1,19 +1,19 @@
 """
-Unittest cases for NBA Stats endpoints data scheme
+Unittest cases for scoreboardv3 endpoints data scheme
 """
 import datetime
 from datetime import timezone
 import json
 from unittest import TestCase
 
-from swish_acquisition.scheme import ScoreboardV3
+from swish_acquisition.scheme.endpoints import ScoreboardV3
 
 
 with open('tests/data/2022-05-29.json', 'r') as fp:
     SCOREBOARD_V3_DATA = json.load(fp)
 
 
-class ScoreboardV3TestCases(TestCase):
+class ScoreboardV3EndpointSchemeTestCases(TestCase):
 
     def setUp(self):
         self.data_scheme = ScoreboardV3.model_validate(SCOREBOARD_V3_DATA)

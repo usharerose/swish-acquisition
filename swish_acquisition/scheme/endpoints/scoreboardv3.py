@@ -6,6 +6,8 @@ from typing import List
 
 from pydantic import BaseModel
 
+from swish_acquisition.scheme.endpoints.meta import Meta
+
 
 __all__ = ['ScoreboardV3']
 
@@ -147,15 +149,6 @@ class DailyScoreboard(BaseModel):
     leagueId: str            # the identifier of league, such as '00' as National Basketball Association
     leagueName: str = ''     # the name of league
     games: List[Game]
-
-
-class Meta(BaseModel):
-    """
-    Meta of the request to stats.nba.com
-    """
-    version: int = 1
-    request: str
-    time: datetime.datetime  # format is %Y-%m-%dT%H:%M:%S.%fZ
 
 
 class ScoreboardV3(BaseModel):
