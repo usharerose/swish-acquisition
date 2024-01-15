@@ -8,7 +8,7 @@ from swish_acquisition.base import (
     DATE_FORMAT_V3,
     Endpoint
 )
-from swish_acquisition.scheme import ScoreboardV3
+from swish_acquisition.scheme.endpoints import ScoreboardV3
 
 
 class ScoreboardV3Endpoint(Endpoint):
