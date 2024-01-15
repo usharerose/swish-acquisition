@@ -1,5 +1,5 @@
 """
-Unittest cases for NBA Stats endpoints data scheme
+Unittest cases for scoreboardv3 endpoints data scheme
 """
 import datetime
 from datetime import timezone
