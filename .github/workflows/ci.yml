@@ -45,3 +45,11 @@ jobs:
         with:
           junitxml-path: coverage_report/pytest.xml
           pytest-xml-coverage-path: coverage_report/cov.xml
+      - name: Store coverage meta result
+        run:
+          echo "${{ steps.coverageComment.outputs.coverage }},${{ steps.coverageComment.outputs.color }}" > result.txt
+      - name: Upload coverage meta result
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ github.event.number }}
+          path: result.txt
