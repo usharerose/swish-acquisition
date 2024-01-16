@@ -48,8 +48,21 @@ jobs:
       - name: Store coverage meta result
         run:
           echo "${{ steps.coverageComment.outputs.coverage }},${{ steps.coverageComment.outputs.color }}" > result.txt
+      - name: Get pull request number
+        uses: actions/github-script@v6
+        id: getPRNumber
+        with:
+          script: |
+            return (
+              await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                commit_sha: context.sha,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              })
+            ).data[0].number;
+          result-encoding: string
       - name: Upload coverage meta result
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-${{ github.event.number }}
+          name: coverage-${{ steps.getPRNumber.outputs.result }}
           path: result.txt
