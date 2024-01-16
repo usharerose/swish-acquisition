@@ -7,7 +7,7 @@ from unittest import TestCase
 from swish_acquisition.scheme.endpoints import PlayByPlayV3
 
 
-with open('tests/data/0040900407.json', 'r') as fp:
+with open('tests/data/endpoints/playbyplayv3/0040900407.json', 'r') as fp:
     PLAYBYPLAY_V3_DATA = json.load(fp)
 
 
