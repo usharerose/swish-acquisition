@@ -45,14 +45,3 @@ jobs:
         with:
           junitxml-path: coverage_report/pytest.xml
           pytest-xml-coverage-path: coverage_report/cov.xml
-      - name: Create coverage Badge
-        uses: schneegans/dynamic-badges-action@v1.7.0
-        if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/master' }}
-        with:
-          auth: ${{ secrets.GITHUB_TOKEN }}
-          gistID: 5e90d640f8c212ab7bbac38f72323f80
-          filename: pytest-coverage-comment__main.json
-          label: Coverage Report
-          message: ${{ steps.coverageComment.outputs.coverage }}
-          color: ${{ steps.coverageComment.outputs.color }}
-          namedLogo: python
