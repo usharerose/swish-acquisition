@@ -15,7 +15,7 @@ from tests.utils import (
 from swish_acquisition.scoreboardv3 import ScoreboardV3Endpoint
 
 
-with open('tests/data/2022-05-29.json', 'r') as fp:
+with open('tests/data/endpoints/scoreboardv3/2022-05-29.json', 'r') as fp:
     SCOREBOARD_V3_DATA = json.load(fp)
 
 

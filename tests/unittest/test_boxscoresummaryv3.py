@@ -1,5 +1,5 @@
 """
-Unittest cases for playbyplayv3 endpoint data acquisition
+Unittest cases for boxscoresummaryv3 endpoint data acquisition
 """
 import datetime
 from http import HTTPStatus
@@ -12,72 +12,72 @@ from tests.utils import (
     get_mocked_response
 )
 
-from swish_acquisition.playbyplayv3 import PlayByPlayV3Endpoint
+from swish_acquisition.boxscoresummaryv3 import BoxScoreSummaryV3Endpoint
 
 
-with open('tests/data/endpoints/playbyplayv3/0040900407.json', 'r') as fp:
-    PLAYBYPLAY_V3_DATA = json.load(fp)
+with open('tests/data/endpoints/boxscoresummaryv3/0040900407.json', 'r') as fp:
+    BOXSCORE_SUMMARY_V3_DATA = json.load(fp)
 
 
-class PlayByPlayV3EndpointTestCases(TestCase):
+class BoxScoreSummaryV3EndpointTestCases(TestCase):
 
     def setUp(self):
         self.sample_date = datetime.date(2022, 5, 29)
         self.sample_game_id = '0040900407'
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.boxscoresummaryv3.BoxScoreSummaryV3Endpoint._send_api_request')
     def test_request(self, mock_request):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
-            json.dumps(PLAYBYPLAY_V3_DATA).encode('utf-8')
+            json.dumps(BOXSCORE_SUMMARY_V3_DATA).encode('utf-8')
         )
         params = {
             'game_date': self.sample_date,
             'game_id': self.sample_game_id
         }
-        endpoint = PlayByPlayV3Endpoint(**params)
+        endpoint = BoxScoreSummaryV3Endpoint(**params)
         response = endpoint.request()
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
         actual_data = json.loads(response.content.decode('utf-8'))
-        self.assertDictEqual(actual_data, PLAYBYPLAY_V3_DATA)
+        self.assertDictEqual(actual_data, BOXSCORE_SUMMARY_V3_DATA)
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.boxscoresummaryv3.BoxScoreSummaryV3Endpoint._send_api_request')
     def test_get_data(self, mock_request):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
-            json.dumps(PLAYBYPLAY_V3_DATA).encode('utf-8')
+            json.dumps(BOXSCORE_SUMMARY_V3_DATA).encode('utf-8')
         )
         params = {
             'game_date': self.sample_date,
             'game_id': self.sample_game_id
         }
-        endpoint = PlayByPlayV3Endpoint(**params)
+        endpoint = BoxScoreSummaryV3Endpoint(**params)
         dm = endpoint.get_data()
 
-        self.assertEqual(dm.game.gameId, self.sample_game_id)
+        self.assertEqual(dm.boxScoreSummary.gameId, self.sample_game_id)
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.boxscoresummaryv3.BoxScoreSummaryV3Endpoint._send_api_request')
     def test_request_failed(self, mock_request):
         mock_request.return_value = get_mocked_error_response()
         params = {
             'game_date': self.sample_date,
             'game_id': self.sample_game_id
         }
-        endpoint = PlayByPlayV3Endpoint(**params)
+        endpoint = BoxScoreSummaryV3Endpoint(**params)
         response = endpoint.request()
 
         self.assertIsNone(response)
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.boxscoresummaryv3.BoxScoreSummaryV3Endpoint._send_api_request')
     def test_get_data_with_failed_request(self, mock_request):
         mock_request.return_value = get_mocked_error_response()
         params = {
             'game_date': self.sample_date,
             'game_id': self.sample_game_id
         }
-        endpoint = PlayByPlayV3Endpoint(**params)
+        endpoint = BoxScoreSummaryV3Endpoint(**params)
         dm = endpoint.get_data()
 
         self.assertIsNone(dm)
