@@ -8,31 +8,22 @@ on:
       - master
 
 jobs:
-  update-coverage:
+  unit-test:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-
-      - name: Download coverage report
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-${{ github.event.number }}
-          path: .
-
-      - name: Extract coverage result
-        id: extractCoverageResult
+      - name: Run unittest cases
         run: |
-          IFS=',' read -r coverage color < result.txt
-          echo "coverage=$coverage" >> $GITHUB_OUTPUT
-          echo "color=$color" >> $GITHUB_OUTPUT
-      
-          # 在这里使用 $coverage 和 $color 进行操作，例如输出值
-          echo "Coverage: $coverage"
-          echo "Color: $color"
-
+          make testd
+      - name: Test coverage comment
+        uses: MishaKav/pytest-coverage-comment@v1.1.50
+        id: coverageComment
+        with:
+          junitxml-path: coverage_report/pytest.xml
+          pytest-xml-coverage-path: coverage_report/cov.xml
       - name: Create the Badge
         uses: schneegans/dynamic-badges-action@v1.6.0
         with:
@@ -40,6 +31,6 @@ jobs:
           gistID: 5e90d640f8c212ab7bbac38f72323f80
           filename: pytest-coverage-comment__main.json
           label: Coverage Report
-          message: ${{ steps.extractCoverageResult.outputs.coverage }}
-          color: ${{ steps.extractCoverageResult.outputs.color }}
+          message: ${{ steps.coverageComment.outputs.coverage }}
+          color: ${{ steps.coverageComment.outputs.color }}
           namedLogo: python
