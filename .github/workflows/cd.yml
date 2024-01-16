@@ -1,0 +1,45 @@
+name: Continuous Deployment
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
+
+jobs:
+  update-coverage:
+    if: github.event.pull_request.merged == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-${{ github.event.number }}
+          path: .
+
+      - name: Extract coverage result
+        id: extractCoverageResult
+        run: |
+          IFS=',' read -r coverage color < result.txt
+          echo "coverage=$coverage" >> $GITHUB_OUTPUT
+          echo "color=$color" >> $GITHUB_OUTPUT
+      
+          # 在这里使用 $coverage 和 $color 进行操作，例如输出值
+          echo "Coverage: $coverage"
+          echo "Color: $color"
+
+      - name: Create the Badge
+        uses: schneegans/dynamic-badges-action@v1.6.0
+        with:
+          auth: ${{ secrets.WORKFLOW_TOKEN }}
+          gistID: 5e90d640f8c212ab7bbac38f72323f80
+          filename: pytest-coverage-comment__main.json
+          label: Coverage Report
+          message: ${{ steps.extractCoverageResult.outputs.coverage }}
+          color: ${{ steps.extractCoverageResult.outputs.color }}
+          namedLogo: python

@@ -45,14 +45,24 @@ jobs:
         with:
           junitxml-path: coverage_report/pytest.xml
           pytest-xml-coverage-path: coverage_report/cov.xml
-      - name: Create coverage Badge
-        uses: schneegans/dynamic-badges-action@v1.7.0
-        if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/master' }}
+      - name: Store coverage meta result
+        run:
+          echo "${{ steps.coverageComment.outputs.coverage }},${{ steps.coverageComment.outputs.color }}" > result.txt
+      - name: Get pull request number
+        uses: actions/github-script@v6
+        id: getPRNumber
         with:
-          auth: ${{ secrets.GITHUB_TOKEN }}
-          gistID: 5e90d640f8c212ab7bbac38f72323f80
-          filename: pytest-coverage-comment__main.json
-          label: Coverage Report
-          message: ${{ steps.coverageComment.outputs.coverage }}
-          color: ${{ steps.coverageComment.outputs.color }}
-          namedLogo: python
+          script: |
+            return (
+              await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                commit_sha: context.sha,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              })
+            ).data[0].number;
+          result-encoding: string
+      - name: Upload coverage meta result
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ steps.getPRNumber.outputs.result }}
+          path: result.txt
