@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  unit-test:
+  update-test-coverage:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +30,7 @@ jobs:
           auth: ${{ secrets.WORKFLOW_TOKEN }}
           gistID: a85f2da56cf61e1703b531b7ca4df7bc
           filename: badge.json
-          label: Coverage Report
+          label: coverage
           message: ${{ steps.coverageComment.outputs.coverage }}
           color: ${{ steps.coverageComment.outputs.color }}
           namedLogo: python
