@@ -1,0 +1,384 @@
+{
+  "resource": "teamdetails",
+  "parameters": {
+    "TeamID": 1610612741
+  },
+  "resultSets": [
+    {
+      "name": "TeamBackground",
+      "headers": [
+        "TEAM_ID",
+        "ABBREVIATION",
+        "NICKNAME",
+        "YEARFOUNDED",
+        "CITY",
+        "ARENA",
+        "ARENACAPACITY",
+        "OWNER",
+        "GENERALMANAGER",
+        "HEADCOACH",
+        "DLEAGUEAFFILIATION"
+      ],
+      "rowSet": [
+        [
+          1610612741,
+          "CHI",
+          "Bulls",
+          1966,
+          "Chicago",
+          "United Center",
+          "21711",
+          "Michael Reinsdorf",
+          "Arturas Karnisovas",
+          "Billy Donovan",
+          "Windy City Bulls"
+        ]
+      ]
+    },
+    {
+      "name": "TeamHistory",
+      "headers": [
+        "TEAM_ID",
+        "CITY",
+        "NICKNAME",
+        "YEARFOUNDED",
+        "YEARACTIVETILL"
+      ],
+      "rowSet": [
+        [
+          1610612741,
+          "Chicago",
+          "Bulls",
+          1966,
+          2023
+        ]
+      ]
+    },
+    {
+      "name": "TeamSocialSites",
+      "headers": [
+        "ACCOUNTTYPE",
+        "WEBSITE_LINK"
+      ],
+      "rowSet": [
+        [
+          "Facebook",
+          "https://www.facebook.com/chicagobulls"
+        ],
+        [
+          "Instagram",
+          "https://instagram.com/chicagobulls"
+        ],
+        [
+          "Twitter",
+          "https://twitter.com/chicagobulls"
+        ]
+      ]
+    },
+    {
+      "name": "TeamAwardsChampionships",
+      "headers": [
+        "YEARAWARDED",
+        "OPPOSITETEAM"
+      ],
+      "rowSet": [
+        [
+          1991,
+          "Los Angeles Lakers"
+        ],
+        [
+          1992,
+          "Portland Trail Blazers"
+        ],
+        [
+          1993,
+          "Phoenix Suns"
+        ],
+        [
+          1996,
+          "Seattle SuperSonics"
+        ],
+        [
+          1997,
+          "Utah Jazz"
+        ],
+        [
+          1998,
+          "Utah Jazz"
+        ]
+      ]
+    },
+    {
+      "name": "TeamAwardsConf",
+      "headers": [
+        "YEARAWARDED",
+        "OPPOSITETEAM"
+      ],
+      "rowSet": [
+        [
+          1991,
+          null
+        ],
+        [
+          1992,
+          null
+        ],
+        [
+          1993,
+          null
+        ],
+        [
+          1996,
+          null
+        ],
+        [
+          1997,
+          null
+        ],
+        [
+          1998,
+          null
+        ]
+      ]
+    },
+    {
+      "name": "TeamAwardsDiv",
+      "headers": [
+        "YEARAWARDED",
+        "OPPOSITETEAM"
+      ],
+      "rowSet": [
+        [
+          1975,
+          null
+        ],
+        [
+          1991,
+          null
+        ],
+        [
+          1992,
+          null
+        ],
+        [
+          1993,
+          null
+        ],
+        [
+          1996,
+          null
+        ],
+        [
+          1997,
+          null
+        ],
+        [
+          1998,
+          null
+        ],
+        [
+          2011,
+          null
+        ],
+        [
+          2012,
+          null
+        ]
+      ]
+    },
+    {
+      "name": "TeamHof",
+      "headers": [
+        "PLAYERID",
+        "PLAYER",
+        "POSITION",
+        "JERSEY",
+        "SEASONSWITHTEAM",
+        "YEAR"
+      ],
+      "rowSet": [
+        [
+          2548,
+          "Dwyane Wade",
+          "G",
+          null,
+          "2016-2017",
+          2023
+        ],
+        [
+          2200,
+          "Pau Gasol",
+          "F-C",
+          null,
+          "2014-2016",
+          2023
+        ],
+        [
+          1112,
+          "Ben Wallace",
+          "C-F",
+          null,
+          "2007-2008",
+          2021
+        ],
+        [
+          389,
+          "Toni Kukoc",
+          "F",
+          null,
+          "1994-2000",
+          2021
+        ],
+        [
+          77371,
+          "Bobby \"Slick\" Leonard",
+          "G",
+          null,
+          "1962",
+          2014
+        ],
+        [
+          78003,
+          "Guy Rodgers",
+          "G",
+          null,
+          "1967-1968",
+          2014
+        ],
+        [
+          78435,
+          "Chet Walker",
+          "F",
+          null,
+          "1970-1975",
+          2012
+        ],
+        [
+          600014,
+          "Artis Gilmore",
+          "C",
+          null,
+          "1977-1982, 1988",
+          2011
+        ],
+        [
+          23,
+          "Dennis Rodman",
+          "F",
+          null,
+          "1996-1998",
+          2011
+        ],
+        [
+          937,
+          "Scottie Pippen",
+          "F",
+          null,
+          "1988-1998, 2004",
+          2010
+        ],
+        [
+          893,
+          "Michael Jordan",
+          "G",
+          null,
+          "1985-1993, 1995-1998",
+          2009
+        ],
+        [
+          305,
+          "Robert Parish",
+          "C",
+          null,
+          "1997",
+          2003
+        ],
+        [
+          76804,
+          "George Gervin",
+          "G-F",
+          null,
+          "1986",
+          1996
+        ],
+        [
+          600001,
+          "Nate Thurmond",
+          "C",
+          null,
+          "1975-1976",
+          1985
+        ]
+      ]
+    },
+    {
+      "name": "TeamRetired",
+      "headers": [
+        "PLAYERID",
+        "PLAYER",
+        "POSITION",
+        "JERSEY",
+        "SEASONSWITHTEAM",
+        "YEAR"
+      ],
+      "rowSet": [
+        [
+          null,
+          "Johnny Kerr",
+          "Coach, Business Manager, Broadcaster",
+          "",
+          "1966-2009",
+          2009
+        ],
+        [
+          937,
+          "Scottie Pippen",
+          "F",
+          "33",
+          "1988-1998, 2004",
+          2005
+        ],
+        [
+          null,
+          "Jerry Krause",
+          "General Manager",
+          "",
+          "1985-2003",
+          2003
+        ],
+        [
+          77106,
+          "Phil Jackson",
+          "Coach",
+          "",
+          "1988-1998",
+          1999
+        ],
+        [
+          77412,
+          "Bob Love",
+          "F",
+          "10",
+          "1969-1977",
+          1994
+        ],
+        [
+          893,
+          "Michael Jordan",
+          "G",
+          "23",
+          "1985-1993, 1995-1998",
+          1994
+        ],
+        [
+          78173,
+          "Jerry Sloan",
+          "G",
+          "4",
+          "1967-1976",
+          1978
+        ]
+      ]
+    }
+  ]
+}
