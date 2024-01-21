@@ -5,3 +5,4 @@ from swish_acquisition.scheme.endpoints.boxscoresummaryv3 import BoxScoreSummary
 from swish_acquisition.scheme.endpoints.commonplayerinfo import CommonPlayerInfo  # NOQA
 from swish_acquisition.scheme.endpoints.playbyplayv3 import PlayByPlayV3  # NOQA
 from swish_acquisition.scheme.endpoints.scoreboardv3 import ScoreboardV3  # NOQA
+from swish_acquisition.scheme.endpoints.teamdetails import TeamDetails  # NOQA
