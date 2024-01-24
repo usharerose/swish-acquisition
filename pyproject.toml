@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 pydantic = "2.5.2"
 requests = "2.31.0"
+tzlocal = "5.2"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "6.1.0"
