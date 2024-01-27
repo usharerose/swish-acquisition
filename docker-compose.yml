@@ -16,6 +16,19 @@ services:
 
   swish-acquisition-run:
     image: swish-acquisition-dev:${IMAGE_TAG:-latest}
+    depends_on:
+      - swish-acquisition-rabbitmq
     volumes:
       - ./:/services/swish/swish-acquisition/
-    command: sleep infinity
+    command: celery -A swish_acquisition.celery_app:app worker -l info
+
+  swish-acquisition-rabbitmq:
+    hostname: rabbitmq
+    image: rabbitmq:3.12.12-management-alpine
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+      RABBITMQ_DEFAULT_VHOST: rabbitmq
