@@ -64,22 +64,26 @@ class Endpoint:
         self._response = response
         return response
 
+    @property
+    def response(self) -> Optional[Response]:
+        return self._response
+
     # which is easy to be mocked
     @staticmethod
     def _send_api_request(*args, **kwargs) -> Response:
         return requests.get(*args, **kwargs)
 
-    def extract_data(self, response: Response) -> Optional[BaseModel]:
-        if not response or self.DATA_MODEL is None:
-            return None
-
-        data = json.loads(response.content.decode('utf-8'))
-        return cast(BaseModel, self.DATA_MODEL).model_validate(data)
-
     def get_data(self, overwritten: bool = False) -> Optional[BaseModel]:
-        response = self._response
-        if not self._response or overwritten:
-            response = self.request()
+        data_dict = self.get_dict(overwritten)
+        if not data_dict or self.DATA_MODEL is None:
+            return None
+        return cast(BaseModel, self.DATA_MODEL).model_validate(data_dict)
 
-        data_model = self.extract_data(response)
-        return data_model
+    def get_dict(self, overwritten: bool = False) -> Optional[Dict]:
+        if not self.response or overwritten:
+            _ = self.request()
+        response = self.response
+        if response is None:
+            return None
+        data_dict = json.loads(response.content.decode('utf-8'))
+        return data_dict
