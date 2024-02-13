@@ -3,12 +3,16 @@ Basis components for collecting endpoint raw data
 """
 from http import HTTPStatus
 import json
+import logging
 from typing import cast, Dict, Optional, Type
 from urllib.parse import urljoin
 
 from pydantic import BaseModel
 import requests
 from requests import ConnectTimeout, ReadTimeout, Response
+
+
+logger = logging.getLogger(__name__)
 
 
 NBA_STATS_BASE_URL = 'https://stats.nba.com/stats/'
@@ -35,7 +39,8 @@ class Endpoint:
     def __init__(self, *args, **kwargs):
         self._validate_endpoint_arguments()
         self._url = urljoin(self.BASE_URL, self.ENDPOINT)
-        self._response: Optional[Response] = None
+        self._data_dict: Dict = {}
+        self._has_called_remote = False
 
     def _validate_endpoint_arguments(self) -> None:
         for item in (self.DATA_MODEL, self.ENDPOINT):
@@ -61,12 +66,8 @@ class Endpoint:
             pass
         if response and response.status_code != HTTPStatus.OK:
             response = None
-        self._response = response
+        self._has_called_remote = True
         return response
-
-    @property
-    def response(self) -> Optional[Response]:
-        return self._response
 
     # which is easy to be mocked
     @staticmethod
@@ -80,10 +81,16 @@ class Endpoint:
         return cast(BaseModel, self.DATA_MODEL).model_validate(data_dict)
 
     def get_dict(self, overwritten: bool = False) -> Optional[Dict]:
-        if not self.response or overwritten:
-            _ = self.request()
-        response = self.response
-        if response is None:
-            return None
-        data_dict = json.loads(response.content.decode('utf-8'))
-        return data_dict
+        if not self._has_called_remote or overwritten:
+            response = self.request()
+            self.data_dict = {} if response else json.loads(response.content.decode('utf-8'))
+        return self._data_dict
+
+    @property
+    def data_dict(self) -> Dict:
+        return self._data_dict
+
+    @data_dict.setter
+    def data_dict(self, data_dict: Dict) -> None:
+        assert isinstance(data_dict, dict)
+        self._data_dict = data_dict
