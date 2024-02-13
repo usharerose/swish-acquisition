@@ -12,7 +12,7 @@ from tests.utils import (
     get_mocked_response
 )
 
-from swish_acquisition.commonplayerinfo import CommonPlayerInfoEndpoint
+from swish_acquisition.endpoints.commonplayerinfo import CommonPlayerInfoEndpoint
 
 
 with open('tests/data/endpoints/commonplayerinfo/893.json', 'r') as fp:

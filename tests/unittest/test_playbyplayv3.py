@@ -12,7 +12,7 @@ from tests.utils import (
     get_mocked_response
 )
 
-from swish_acquisition.playbyplayv3 import PlayByPlayV3Endpoint
+from swish_acquisition.endpoints.playbyplayv3 import PlayByPlayV3Endpoint
 
 
 with open('tests/data/endpoints/playbyplayv3/0040900407.json', 'r') as fp:

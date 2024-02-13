@@ -12,7 +12,7 @@ from tests.utils import (
     get_mocked_response
 )
 
-from swish_acquisition.scoreboardv3 import ScoreboardV3Endpoint
+from swish_acquisition.endpoints.scoreboardv3 import ScoreboardV3Endpoint
 
 
 with open('tests/data/endpoints/scoreboardv3/2022-05-29.json', 'r') as fp:

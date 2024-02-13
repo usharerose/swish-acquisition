@@ -12,7 +12,7 @@ from tests.utils import (
     get_mocked_response
 )
 
-from swish_acquisition.teamdetails import TeamDetailsEndpoint
+from swish_acquisition.endpoints.teamdetails import TeamDetailsEndpoint
 
 
 with open('tests/data/endpoints/teamdetails/1610612741.json', 'r') as fp:

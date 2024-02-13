@@ -12,7 +12,7 @@ from tests.utils import (
     get_mocked_response
 )
 
-from swish_acquisition.boxscoresummaryv3 import BoxScoreSummaryV3Endpoint
+from swish_acquisition.endpoints.boxscoresummaryv3 import BoxScoreSummaryV3Endpoint
 
 
 with open('tests/data/endpoints/boxscoresummaryv3/0040900407.json', 'r') as fp:
