@@ -22,7 +22,7 @@ services:
       - swish-acquisition-minio-client
     volumes:
       - ./:/services/swish/swish-acquisition/
-    command: celery -A swish_acquisition.celery_app:app worker -l info
+    command: celery -A swish_acquisition.celery_app:app worker -l info -c 1
 
   swish-acquisition-rabbitmq:
     hostname: rabbitmq
