@@ -80,17 +80,13 @@ class Endpoint:
             return None
         return cast(BaseModel, self.DATA_MODEL).model_validate(data_dict)
 
-    def get_dict(self, overwritten: bool = False) -> Optional[Dict]:
+    def get_dict(self, overwritten: bool = False) -> Dict:
         if not self._has_called_remote or overwritten:
             response = self.request()
-            self.data_dict = {} if response else json.loads(response.content.decode('utf-8'))
+            data_dict = {} if response is None else json.loads(response.content.decode('utf-8'))
+            self._set_data_dict(data_dict)
         return self._data_dict
 
-    @property
-    def data_dict(self) -> Dict:
-        return self._data_dict
-
-    @data_dict.setter
-    def data_dict(self, data_dict: Dict) -> None:
+    def _set_data_dict(self, data_dict: Dict) -> None:
         assert isinstance(data_dict, dict)
         self._data_dict = data_dict

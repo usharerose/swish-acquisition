@@ -32,12 +32,11 @@ def get_s3_object_data(bucket_name: str, object_name: str) -> Dict:
     try:
         response = S3_CLIENT.get_object(bucket_name, object_name)
         data = json.loads(response.data.decode('utf-8'))
-        # Read data from response.
     finally:
         if response:
             response.close()
             response.release_conn()
-    return data
+    return data  # type: ignore[no-any-return]
 
 
 class S3MixIn(object):
@@ -55,22 +54,24 @@ class S3MixIn(object):
 
     def upload_to_s3(self, data: Dict) -> None:
         content = json.dumps(data).encode('utf-8')
-        data = io.BytesIO(content)
+        b_data = io.BytesIO(content)
         data_length = len(content)
 
         try:
-            S3_CLIENT.put_object(self.BUCKET_NAME, self.object_path, data,
+            S3_CLIENT.put_object(self.BUCKET_NAME, self.object_path, b_data,
                                  data_length, content_type='application/json')
         except S3Error:
             logger.exception('upload failed')
             raise
 
     @property
-    def object_path(self):
+    def object_path(self) -> str:
         return self.OBJECT_NAME_PATTERN.format(**self.get_object_path_kwargs())
 
     def get_object_path_kwargs(self) -> Dict:
         raise NotImplementedError
 
-    def get_object_data(self):
+    def get_object_data(self) -> Dict:
+        if self.BUCKET_NAME is None:
+            raise
         return get_s3_object_data(self.BUCKET_NAME, self.object_path)
