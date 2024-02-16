@@ -57,7 +57,8 @@ services:
       - swish-acquisition-minio
     entrypoint: >
       /bin/sh -c "
+      sleep 5;
       /usr/bin/mc alias set minio http://minio:9000 minioadmin minioadmin;
-      /usr/bin/mc mb minio/scoreboard --ignore-existing;
+      /usr/bin/mc mb --ignore-existing minio/scoreboard;
       exit 0;
       "
