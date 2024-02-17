@@ -10,9 +10,8 @@ from urllib3.response import BaseHTTPResponse
 
 from minio import S3Error
 
-from tests.utils import get_mocked_response
-
 from swish_acquisition.collectors import ScoreboardCollector
+from tests.utils import get_mocked_response
 
 
 with open('tests/data/endpoints/scoreboardv3/2022-05-29.json', 'r') as fp:
