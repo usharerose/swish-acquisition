@@ -1,0 +1,3 @@
+[run]
+omit =
+    swish_acquisition/s3.py
