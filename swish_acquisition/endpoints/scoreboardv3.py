@@ -4,7 +4,7 @@ Collect scoreboardv3 endpoint data
 import datetime
 from typing import Dict, Type
 
-from swish_acquisition.base import (
+from swish_acquisition.endpoints.base import (
     DATE_FORMAT_V3,
     Endpoint
 )

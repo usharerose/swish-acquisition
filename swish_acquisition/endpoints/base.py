@@ -3,12 +3,16 @@ Basis components for collecting endpoint raw data
 """
 from http import HTTPStatus
 import json
+import logging
 from typing import cast, Dict, Optional, Type
 from urllib.parse import urljoin
 
 from pydantic import BaseModel
 import requests
 from requests import ConnectTimeout, ReadTimeout, Response
+
+
+logger = logging.getLogger(__name__)
 
 
 NBA_STATS_BASE_URL = 'https://stats.nba.com/stats/'
@@ -35,7 +39,8 @@ class Endpoint:
     def __init__(self, *args, **kwargs):
         self._validate_endpoint_arguments()
         self._url = urljoin(self.BASE_URL, self.ENDPOINT)
-        self._response: Optional[Response] = None
+        self._data_dict: Dict = {}
+        self._has_called_remote = False
 
     def _validate_endpoint_arguments(self) -> None:
         for item in (self.DATA_MODEL, self.ENDPOINT):
@@ -61,7 +66,7 @@ class Endpoint:
             pass
         if response and response.status_code != HTTPStatus.OK:
             response = None
-        self._response = response
+        self._has_called_remote = True
         return response
 
     # which is easy to be mocked
@@ -69,17 +74,19 @@ class Endpoint:
     def _send_api_request(*args, **kwargs) -> Response:
         return requests.get(*args, **kwargs)
 
-    def extract_data(self, response: Response) -> Optional[BaseModel]:
-        if not response or self.DATA_MODEL is None:
-            return None
-
-        data = json.loads(response.content.decode('utf-8'))
-        return cast(BaseModel, self.DATA_MODEL).model_validate(data)
-
     def get_data(self, overwritten: bool = False) -> Optional[BaseModel]:
-        response = self._response
-        if not self._response or overwritten:
-            response = self.request()
+        data_dict = self.get_dict(overwritten)
+        if not data_dict or self.DATA_MODEL is None:
+            return None
+        return cast(BaseModel, self.DATA_MODEL).model_validate(data_dict)
 
-        data_model = self.extract_data(response)
-        return data_model
+    def get_dict(self, overwritten: bool = False) -> Dict:
+        if not self._has_called_remote or overwritten:
+            response = self.request()
+            data_dict = {} if response is None else json.loads(response.content.decode('utf-8'))
+            self._set_data_dict(data_dict)
+        return self._data_dict
+
+    def _set_data_dict(self, data_dict: Dict) -> None:
+        assert isinstance(data_dict, dict)
+        self._data_dict = data_dict

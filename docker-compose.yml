@@ -18,9 +18,11 @@ services:
     image: swish-acquisition-dev:${IMAGE_TAG:-latest}
     depends_on:
       - swish-acquisition-rabbitmq
+      - swish-acquisition-minio
+      - swish-acquisition-minio-client
     volumes:
       - ./:/services/swish/swish-acquisition/
-    command: celery -A swish_acquisition.celery_app:app worker -l info
+    command: celery -A swish_acquisition.celery_app:app worker -l info -c 1
 
   swish-acquisition-rabbitmq:
     hostname: rabbitmq
@@ -32,3 +34,31 @@ services:
       RABBITMQ_DEFAULT_USER: rabbitmq
       RABBITMQ_DEFAULT_PASS: rabbitmq
       RABBITMQ_DEFAULT_VHOST: rabbitmq
+
+  swish-acquisition-minio:
+    hostname: minio
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server --console-address ":9001" /data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  swish-acquisition-minio-client:
+    image: minio/mc:latest
+    depends_on:
+      - swish-acquisition-minio
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5;
+      /usr/bin/mc alias set minio http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc mb --ignore-existing minio/scoreboard;
+      exit 0;
+      "

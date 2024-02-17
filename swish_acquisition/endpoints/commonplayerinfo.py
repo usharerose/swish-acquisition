@@ -4,9 +4,7 @@ Collect commonplayerinfo endpoint data
 import datetime
 from typing import Dict, Type
 
-from swish_acquisition.base import (
-    Endpoint
-)
+from swish_acquisition.endpoints.base import Endpoint
 from swish_acquisition.scheme.endpoints import CommonPlayerInfo
 
 
