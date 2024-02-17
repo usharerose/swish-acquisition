@@ -25,7 +25,7 @@ class PlayByPlayV3EndpointTestCases(TestCase):
         self.sample_date = datetime.date(2022, 5, 29)
         self.sample_game_id = '0040900407'
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.PlayByPlayV3Endpoint._send_api_request')
     def test_request(self, mock_request):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
@@ -43,7 +43,7 @@ class PlayByPlayV3EndpointTestCases(TestCase):
         actual_data = json.loads(response.content.decode('utf-8'))
         self.assertDictEqual(actual_data, PLAYBYPLAY_V3_DATA)
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.PlayByPlayV3Endpoint._send_api_request')
     def test_get_data(self, mock_request):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
@@ -58,7 +58,7 @@ class PlayByPlayV3EndpointTestCases(TestCase):
 
         self.assertEqual(dm.game.gameId, self.sample_game_id)
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.PlayByPlayV3Endpoint._send_api_request')
     def test_request_failed(self, mock_request):
         mock_request.return_value = get_mocked_error_response()
         params = {
@@ -70,7 +70,7 @@ class PlayByPlayV3EndpointTestCases(TestCase):
 
         self.assertIsNone(response)
 
-    @patch('swish_acquisition.playbyplayv3.PlayByPlayV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.PlayByPlayV3Endpoint._send_api_request')
     def test_get_data_with_failed_request(self, mock_request):
         mock_request.return_value = get_mocked_error_response()
         params = {

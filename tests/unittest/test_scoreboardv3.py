@@ -25,7 +25,7 @@ class ScoreboardV3EndpointTestCases(TestCase):
         self.sample_date = datetime.date(2022, 5, 29)
         self.league_id = '00'
 
-    @patch('swish_acquisition.scoreboardv3.ScoreboardV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.ScoreboardV3Endpoint._send_api_request')
     def test_request(self, mock_request):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
@@ -43,7 +43,7 @@ class ScoreboardV3EndpointTestCases(TestCase):
         actual_data = json.loads(response.content.decode('utf-8'))
         self.assertDictEqual(actual_data, SCOREBOARD_V3_DATA)
 
-    @patch('swish_acquisition.scoreboardv3.ScoreboardV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.ScoreboardV3Endpoint._send_api_request')
     def test_get_data(self, mock_request):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
@@ -59,7 +59,7 @@ class ScoreboardV3EndpointTestCases(TestCase):
         self.assertEqual(dm.scoreboard.gameDate, self.sample_date)
         self.assertEqual(dm.scoreboard.leagueId, '00')
 
-    @patch('swish_acquisition.scoreboardv3.ScoreboardV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.ScoreboardV3Endpoint._send_api_request')
     def test_request_failed(self, mock_request):
         mock_request.return_value = get_mocked_error_response()
         params = {
@@ -71,7 +71,7 @@ class ScoreboardV3EndpointTestCases(TestCase):
 
         self.assertIsNone(response)
 
-    @patch('swish_acquisition.scoreboardv3.ScoreboardV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.ScoreboardV3Endpoint._send_api_request')
     def test_get_data_with_failed_request(self, mock_request):
         mock_request.return_value = get_mocked_error_response()
         params = {
