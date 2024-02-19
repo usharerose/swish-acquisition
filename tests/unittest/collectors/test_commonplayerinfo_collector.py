@@ -22,7 +22,7 @@ class CommonPlayerInfoCollectorTestCases(TestCase):
 
     def setUp(self):
         self.sample_date = datetime.date(2003, 4, 16)
-        self.player_id = '893'
+        self.player_id = 893
 
     @patch('swish_acquisition.s3.S3MixIn.upload_to_s3')
     @patch('swish_acquisition.s3.get_s3_object_data')
