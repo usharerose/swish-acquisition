@@ -1,5 +1,5 @@
 """
-Unittest cases for scoreboard data collection
+Unittest cases for Common Player Info data collection
 """
 import datetime
 from http import HTTPStatus
@@ -10,36 +10,34 @@ from urllib3.response import BaseHTTPResponse
 
 from minio import S3Error
 
-from swish_acquisition.collectors import ScoreboardCollector
+from swish_acquisition.collectors import CommonPlayerInfoCollector
 from tests.utils import get_mocked_response
 
 
-with open('tests/data/endpoints/scoreboardv3/2022-05-29.json', 'r') as fp:
-    SCOREBOARD_V3_DATA = json.load(fp)
+with open('tests/data/endpoints/commonplayerinfo/893.json', 'r') as fp:
+    COMMON_PLAYER_INFO_DATA = json.load(fp)
 
 
-class ScoreboardCollectorTestCases(TestCase):
+class CommonPlayerInfoCollectorTestCases(TestCase):
 
     def setUp(self):
-        self.sample_date = datetime.date(2022, 5, 29)
-        self.league_id = '00'
+        self.sample_date = datetime.date(2003, 4, 16)
+        self.player_id = 893
 
     @patch('swish_acquisition.s3.S3MixIn.upload_to_s3')
     @patch('swish_acquisition.s3.get_s3_object_data')
-    @patch('swish_acquisition.endpoints.ScoreboardV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.CommonPlayerInfoEndpoint._send_api_request')
     def test_run(self, mock_request,
                  mock_get_object, mock_upload_object):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
-            json.dumps(SCOREBOARD_V3_DATA).encode('utf-8')
+            json.dumps(COMMON_PLAYER_INFO_DATA).encode('utf-8')
         )
         mock_get_object.side_effect = S3Error(
             code='NoSuchKey',
             message='The specified key does not exist.',
-            resource='/scoreboard/{year:04d}/{month:02d}/{day:02d}.json'.format(
-                year=self.sample_date.year,
-                month=self.sample_date.month,
-                day=self.sample_date.day
+            resource='/commonplayerinfo/{player_id}.json'.format(
+                player_id=self.player_id
             ),
             request_id='MOCKREQUESTID',
             host_id='mockhostid',
@@ -53,38 +51,47 @@ class ScoreboardCollectorTestCases(TestCase):
         )
         mock_upload_object.return_value = None
 
-        collector = ScoreboardCollector(game_date=self.sample_date, league_id=self.league_id)
+        collector = CommonPlayerInfoCollector(
+            game_date=self.sample_date,
+            player_id=self.player_id
+        )
         collector.run()
 
-        mock_upload_object.assert_called_once_with(SCOREBOARD_V3_DATA)
+        mock_upload_object.assert_called_once_with(COMMON_PLAYER_INFO_DATA)
 
     @patch('swish_acquisition.s3.S3MixIn.upload_to_s3')
     @patch('swish_acquisition.s3.get_s3_object_data')
-    @patch('swish_acquisition.endpoints.ScoreboardV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.CommonPlayerInfoEndpoint._send_api_request')
     def test_run_with_local_object(self, mock_request,
                                    mock_get_object, mock_upload_object):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
-            json.dumps(SCOREBOARD_V3_DATA).encode('utf-8')
+            json.dumps(COMMON_PLAYER_INFO_DATA).encode('utf-8')
         )
-        mock_get_object.return_value = SCOREBOARD_V3_DATA
+        mock_get_object.return_value = COMMON_PLAYER_INFO_DATA
         mock_upload_object.return_value = None
 
-        collector = ScoreboardCollector(game_date=self.sample_date, league_id=self.league_id)
+        collector = CommonPlayerInfoCollector(
+            game_date=self.sample_date,
+            player_id=self.player_id
+        )
         collector.run()
 
-        self.assertEqual(collector._data_dict, SCOREBOARD_V3_DATA)
+        self.assertEqual(collector._data_dict, COMMON_PLAYER_INFO_DATA)
 
     @patch('swish_acquisition.s3.S3MixIn.upload_to_s3')
-    @patch('swish_acquisition.endpoints.ScoreboardV3Endpoint._send_api_request')
+    @patch('swish_acquisition.endpoints.CommonPlayerInfoEndpoint._send_api_request')
     def test_run_when_overwritten(self, mock_request, mock_upload_object):
         mock_request.return_value = get_mocked_response(
             HTTPStatus.OK.value,
-            json.dumps(SCOREBOARD_V3_DATA).encode('utf-8')
+            json.dumps(COMMON_PLAYER_INFO_DATA).encode('utf-8')
         )
         mock_upload_object.return_value = None
 
-        collector = ScoreboardCollector(game_date=self.sample_date, league_id=self.league_id)
+        collector = CommonPlayerInfoCollector(
+            game_date=self.sample_date,
+            player_id=self.player_id
+        )
         collector.run(overwritten=True)
 
-        mock_upload_object.assert_called_once_with(SCOREBOARD_V3_DATA)
+        mock_upload_object.assert_called_once_with(COMMON_PLAYER_INFO_DATA)
