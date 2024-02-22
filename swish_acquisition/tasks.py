@@ -3,6 +3,7 @@ Celery tasks
 """
 import datetime
 import logging
+import random
 import time
 
 from swish_acquisition.celery_app import app
@@ -16,6 +17,10 @@ from swish_acquisition.collectors import (
 
 
 logger = logging.getLogger(__name__)
+
+
+def request_interval() -> None:
+    time.sleep(random.uniform(2, 4))
 
 
 @app.task
@@ -39,7 +44,7 @@ def scrape_single_game_series(game_date: str, game_id: str):
             continue
         team_details = TeamDetailsCollector(game_date=a_date, team_id=team_id)
         team_details.run()
-        time.sleep(3)
+        request_interval()
 
     # 03. collect Common Player Info of game's related players
     for _, player_ids in boxscore_summary.get_player_ids().items():
@@ -48,7 +53,7 @@ def scrape_single_game_series(game_date: str, game_id: str):
         for player_id in player_ids:
             common_player_info = CommonPlayerInfoCollector(game_date=a_date, player_id=player_id)
             common_player_info.run()
-            time.sleep(3)
+            request_interval()
 
     # 04. collect Play By Play
     play_by_play = PlayByPlayCollector(game_date=a_date, game_id=game_id)
