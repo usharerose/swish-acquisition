@@ -1,7 +1,7 @@
 """
 Collect and store Common Player Info raw data
 """
-from typing import Dict
+from typing import Any, Dict
 
 from swish_acquisition.collectors.base import EndpointCollectorMixIn
 from swish_acquisition.endpoints import CommonPlayerInfoEndpoint
@@ -13,7 +13,7 @@ class CommonPlayerInfoCollector(CommonPlayerInfoEndpoint, S3MixIn, EndpointColle
     BUCKET_NAME = 'commonplayerinfo'
     OBJECT_NAME_PATTERN = '/{player_id}.json'
 
-    def __init__(self, *args, **kwargs):  # NOQA
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # NOQA
         super().__init__(*args, **kwargs)
 
     def get_object_path_kwargs(self) -> Dict:

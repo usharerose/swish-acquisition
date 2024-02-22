@@ -4,7 +4,7 @@ Basis components for collecting endpoint raw data
 from http import HTTPStatus
 import json
 import logging
-from typing import cast, Dict, Optional, Type
+from typing import Any, cast, Dict, Optional, Type
 from urllib.parse import urljoin
 
 from pydantic import BaseModel
@@ -36,7 +36,7 @@ class Endpoint:
     HEADERS = NBA_STATS_REQUEST_HEADERS
     TIMEOUT: int = DEFAULT_TIMEOUT
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         self._validate_endpoint_arguments()
         self._url = urljoin(self.BASE_URL, self.ENDPOINT)
         self._data_dict: Dict = {}
@@ -71,7 +71,7 @@ class Endpoint:
 
     # which is easy to be mocked
     @staticmethod
-    def _send_api_request(*args, **kwargs) -> Response:
+    def _send_api_request(*args: Any, **kwargs: Any) -> Response:
         return requests.get(*args, **kwargs)
 
     def get_data(self, overwritten: bool = False) -> Optional[BaseModel]:

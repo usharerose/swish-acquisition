@@ -1,7 +1,7 @@
 """
 Collect and store Boxscore Summary raw data
 """
-from typing import Dict
+from typing import Any, Dict
 
 from swish_acquisition.collectors.base import EndpointCollectorMixIn
 from swish_acquisition.endpoints import BoxScoreSummaryV3Endpoint
@@ -13,7 +13,7 @@ class BoxscoreSummaryCollector(BoxScoreSummaryV3Endpoint, S3MixIn, EndpointColle
     BUCKET_NAME = 'boxscoresummary'
     OBJECT_NAME_PATTERN = '/{year:04d}/{month:02d}/{day:02d}/{game_id}.json'
 
-    def __init__(self, *args, **kwargs):  # NOQA
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # NOQA
         super().__init__(*args, **kwargs)
 
     def get_object_path_kwargs(self) -> Dict:
