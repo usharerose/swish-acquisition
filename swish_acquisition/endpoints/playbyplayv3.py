@@ -2,15 +2,14 @@
 Collect playbyplayv3 endpoint data
 """
 import datetime
-from typing import Any, Dict, Type
+from typing import Any, Dict
 
 from swish_acquisition.endpoints.base import Endpoint
 from swish_acquisition.scheme.endpoints import PlayByPlayV3
 
 
-class PlayByPlayV3Endpoint(Endpoint):
+class PlayByPlayV3Endpoint(Endpoint[PlayByPlayV3]):
 
-    DATA_MODEL: Type[PlayByPlayV3] = PlayByPlayV3
     ENDPOINT: str = 'playbyplayv3'
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

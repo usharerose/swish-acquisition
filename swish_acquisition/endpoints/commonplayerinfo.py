@@ -2,15 +2,14 @@
 Collect commonplayerinfo endpoint data
 """
 import datetime
-from typing import Any, Dict, Type
+from typing import Any, Dict
 
 from swish_acquisition.endpoints.base import Endpoint
 from swish_acquisition.scheme.endpoints import CommonPlayerInfo
 
 
-class CommonPlayerInfoEndpoint(Endpoint):
+class CommonPlayerInfoEndpoint(Endpoint[CommonPlayerInfo]):
 
-    DATA_MODEL: Type[CommonPlayerInfo] = CommonPlayerInfo
     ENDPOINT: str = 'commonplayerinfo'
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

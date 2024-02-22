@@ -2,7 +2,7 @@
 Collect scoreboardv3 endpoint data
 """
 import datetime
-from typing import Any, Dict, Type
+from typing import Any, Dict
 
 from swish_acquisition.endpoints.base import (
     DATE_FORMAT_V3,
@@ -11,9 +11,8 @@ from swish_acquisition.endpoints.base import (
 from swish_acquisition.scheme.endpoints import ScoreboardV3
 
 
-class ScoreboardV3Endpoint(Endpoint):
+class ScoreboardV3Endpoint(Endpoint[ScoreboardV3]):
 
-    DATA_MODEL: Type[ScoreboardV3] = ScoreboardV3
     ENDPOINT: str = 'scoreboardv3'
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

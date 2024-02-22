@@ -2,16 +2,15 @@
 Collect boxsummaryv3 endpoint data
 """
 import datetime
-from typing import Any, Dict, Optional, Type
+from typing import Any, Dict, Optional
 
 from swish_acquisition.endpoints.base import Endpoint
 from swish_acquisition.scheme.endpoints import BoxScoreSummaryV3
 from swish_acquisition.scheme.endpoints.boxscoresummaryv3 import TeamGameOverallStats
 
 
-class BoxScoreSummaryV3Endpoint(Endpoint):
+class BoxScoreSummaryV3Endpoint(Endpoint[BoxScoreSummaryV3]):
 
-    DATA_MODEL: Type[BoxScoreSummaryV3] = BoxScoreSummaryV3
     ENDPOINT: str = 'boxscoresummaryv3'
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:

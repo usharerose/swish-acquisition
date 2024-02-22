@@ -4,7 +4,15 @@ Basis components for collecting endpoint raw data
 from http import HTTPStatus
 import json
 import logging
-from typing import Any, cast, Dict, Optional, Type
+from typing import (
+    Any,
+    Dict,
+    Generic,
+    get_args,
+    Optional,
+    Type,
+    TypeVar
+)
 from urllib.parse import urljoin
 
 from pydantic import BaseModel
@@ -28,24 +36,25 @@ NBA_STATS_REQUEST_HEADERS = {
 DEFAULT_TIMEOUT = 5
 
 
-class Endpoint:
+Model = TypeVar('Model', bound=BaseModel)
+
+
+class Endpoint(Generic[Model]):
 
     BASE_URL: str = NBA_STATS_BASE_URL
-    DATA_MODEL: Optional[Type[BaseModel]] = None
-    ENDPOINT: Optional[str] = None
-    HEADERS = NBA_STATS_REQUEST_HEADERS
+    DATA_MODEL: Type[Model]
+    ENDPOINT: str
+    HEADERS: Dict = NBA_STATS_REQUEST_HEADERS
     TIMEOUT: int = DEFAULT_TIMEOUT
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        self._validate_endpoint_arguments()
         self._url = urljoin(self.BASE_URL, self.ENDPOINT)
         self._data_dict: Dict = {}
         self._has_called_remote = False
 
-    def _validate_endpoint_arguments(self) -> None:
-        for item in (self.DATA_MODEL, self.ENDPOINT):
-            if item is None:
-                raise
+    def __init_subclass__(cls, **kwargs):
+        cls.DATA_MODEL, *_ = get_args(cls.__orig_bases__[0])  # type: ignore
+        super().__init_subclass__(**kwargs)
 
     def get_params(self) -> Dict:
         raise NotImplementedError
@@ -74,11 +83,11 @@ class Endpoint:
     def _send_api_request(*args: Any, **kwargs: Any) -> Response:
         return requests.get(*args, **kwargs)
 
-    def get_data(self, overwritten: bool = False) -> Optional[BaseModel]:
+    def get_data(self, overwritten: bool = False) -> Optional[Model]:
         data_dict = self.get_dict(overwritten)
-        if not data_dict or self.DATA_MODEL is None:
+        if not data_dict:
             return None
-        return cast(BaseModel, self.DATA_MODEL).model_validate(data_dict)
+        return self.DATA_MODEL.model_validate(data_dict)
 
     def get_dict(self, overwritten: bool = False) -> Dict:
         if not self._has_called_remote or overwritten:
