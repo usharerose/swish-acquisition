@@ -2,18 +2,17 @@
 Collect commonplayerinfo endpoint data
 """
 import datetime
-from typing import Dict, Type
+from typing import Any, Dict
 
 from swish_acquisition.endpoints.base import Endpoint
 from swish_acquisition.scheme.endpoints import CommonPlayerInfo
 
 
-class CommonPlayerInfoEndpoint(Endpoint):
+class CommonPlayerInfoEndpoint(Endpoint[CommonPlayerInfo]):
 
-    DATA_MODEL: Type[CommonPlayerInfo] = CommonPlayerInfo
     ENDPOINT: str = 'commonplayerinfo'
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super(CommonPlayerInfoEndpoint, self).__init__(*args, **kwargs)
         self.player_id: int = kwargs['player_id']
         self.game_date: datetime.date = kwargs['game_date']

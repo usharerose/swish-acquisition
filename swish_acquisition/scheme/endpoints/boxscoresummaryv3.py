@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from swish_acquisition.scheme.endpoints.meta import Meta
 
 
-__all__ = ['BoxScoreSummaryV3']
+__all__ = ['BoxScoreSummaryV3', 'TeamGameOverallStats']
 
 
 class GameArena(BaseModel):

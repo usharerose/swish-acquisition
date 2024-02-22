@@ -4,7 +4,7 @@ Utilities on S3 interaction
 import io
 import logging
 import json
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from minio import Minio, S3Error
 
@@ -44,7 +44,7 @@ class S3MixIn(object):
     BUCKET_NAME: Optional[str] = None
     OBJECT_NAME_PATTERN: str
 
-    def __init__(self, *args, **kwargs):  # NOQA
+    def __init__(self, *args: Any, **kwargs: Any) -> None:  # NOQA
         self._validate_bucket_arguments()
 
     def _validate_bucket_arguments(self) -> None:
