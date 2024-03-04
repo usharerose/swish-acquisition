@@ -32,21 +32,14 @@ class EndpointCollectorProtocol(Protocol):
 class EndpointCollectorMixIn(object):
 
     def run(self: EndpointCollectorProtocol, overwritten: bool = False) -> None:
-        msg_template = (f'{self.__class__.__name__} | '
-                        f'{json.dumps(self.get_params())} | '
-                        f'from %(source)s | '
-                        f'SUCCESS')
-        src_tag = 'REMOTE'
         if not overwritten:
             try:
-                src_tag = 'LOCAL'
                 obj_data = self.get_object_data()
                 self._set_data_dict(obj_data)
-                logger.info(msg_template % {'source': src_tag})
                 return
             except S3Error:
                 pass
 
         data = self.get_dict(overwritten)
         self.upload_to_s3(data)
-        logger.info(msg_template % {'source': src_tag})
+        logger.info(f'{self.__class__.__name__} | {json.dumps(self.get_params())} | finished')
