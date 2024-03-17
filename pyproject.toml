@@ -11,6 +11,7 @@ celery = "5.3.6"
 minio = "7.2.3"
 pydantic = "2.5.2"
 requests = "2.31.0"
+SQLAlchemy = "2.0.28"
 tzlocal = "5.2"
 
 [tool.poetry.group.dev.dependencies]
