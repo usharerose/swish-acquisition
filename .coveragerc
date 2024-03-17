@@ -1,3 +1,4 @@
 [run]
 omit =
+    swish_acquisition/models.py
     swish_acquisition/s3.py
