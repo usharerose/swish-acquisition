@@ -1,0 +1,6 @@
+"""
+settings
+"""
+
+
+DEBUG = False
