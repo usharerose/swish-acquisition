@@ -20,6 +20,7 @@ services:
       - swish-acquisition-rabbitmq
       - swish-acquisition-minio
       - swish-acquisition-minio-client
+      - swish-acquisition-postgres
     volumes:
       - ./:/services/swish/swish-acquisition/
     command: celery -A swish_acquisition.celery_app:app worker -l info -c 1
@@ -66,3 +67,15 @@ services:
       minio/teamdetails;
       exit 0;
       "
+
+  swish-acquisition-postgres:
+    hostname: postgres
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: swish_analytics
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
