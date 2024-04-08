@@ -4,6 +4,7 @@ Collect scoreboardv3 endpoint data
 import datetime
 from typing import Any, Dict
 
+from swish_acquisition.constants import SCOREBOARD
 from swish_acquisition.endpoints.base import (
     DATE_FORMAT_V3,
     Endpoint
@@ -13,7 +14,7 @@ from swish_acquisition.scheme.endpoints import ScoreboardV3
 
 class ScoreboardV3Endpoint(Endpoint[ScoreboardV3]):
 
-    ENDPOINT: str = 'scoreboardv3'
+    ENDPOINT: str = SCOREBOARD.endpoint_name
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super(ScoreboardV3Endpoint, self).__init__(*args, **kwargs)

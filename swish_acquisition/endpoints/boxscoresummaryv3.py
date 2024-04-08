@@ -4,6 +4,7 @@ Collect boxsummaryv3 endpoint data
 import datetime
 from typing import Any, Dict, Optional
 
+from swish_acquisition.constants import BOXSCORE_SUMMARY
 from swish_acquisition.endpoints.base import Endpoint
 from swish_acquisition.scheme.endpoints import BoxScoreSummaryV3
 from swish_acquisition.scheme.endpoints.boxscoresummaryv3 import TeamGameOverallStats
@@ -11,7 +12,7 @@ from swish_acquisition.scheme.endpoints.boxscoresummaryv3 import TeamGameOverall
 
 class BoxScoreSummaryV3Endpoint(Endpoint[BoxScoreSummaryV3]):
 
-    ENDPOINT: str = 'boxscoresummaryv3'
+    ENDPOINT: str = BOXSCORE_SUMMARY.endpoint_name
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super(BoxScoreSummaryV3Endpoint, self).__init__(*args, **kwargs)
