@@ -4,9 +4,12 @@ Utilities on S3 interaction
 import io
 import logging
 import json
+import time
 from typing import Any, Dict, Optional
 
 from minio import Minio, S3Error
+
+from swish_acquisition.conf import settings
 
 
 logger = logging.getLogger(__name__)
@@ -75,3 +78,27 @@ class S3MixIn(object):
         if self.BUCKET_NAME is None:
             raise
         return get_s3_object_data(self.BUCKET_NAME, self.object_path)
+
+
+def create_bucket(bucket_name: str) -> bool:
+    """
+    initialize a Minio bucket
+    """
+    is_exist = S3_CLIENT.bucket_exists(bucket_name)
+
+    if not is_exist:
+        retries = 0
+        while True:
+            try:
+                S3_CLIENT.make_bucket(bucket_name)
+            except S3Error:
+                if retries < settings.PREPARE_MODELS_MAX_RETRIES:
+                    time.sleep(10)
+                    retries += 1
+                else:
+                    logger.exception(f'something error when try to create bucket \'{bucket_name}\'')
+                    raise
+            else:
+                break
+
+    return True

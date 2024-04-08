@@ -16,3 +16,7 @@ DATABASES = {
         'PORT': 5432
     }
 }
+
+
+# retry upper limit when init backend tables
+PREPARE_MODELS_MAX_RETRIES = 3
