@@ -3,10 +3,19 @@ Database models used by SQLAlchemy, which store results
 """
 from enum import Enum
 import json
+import logging
+import time
 
 from sqlalchemy import Date, DateTime, event, String, text
+from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.schema import DDL
+
+from swish_acquisition.conf import settings
+from swish_acquisition.session import managed_session
+
+
+logger = logging.getLogger(__name__)
 
 
 class Status(Enum):
@@ -144,3 +153,21 @@ class SwishTask(BaseModel):
 
 
 event.listen(BaseModel.metadata, 'before_create', CREATE_FUNCTION_UPDATED_TIME_TRIGGER)
+
+
+def prepare_models():
+    retries = 0
+    while True:
+        try:
+            with managed_session() as session:
+                BaseModel.metadata.create_all(session.bind)
+        except DatabaseError:
+            if retries < settings.PREPARE_MODELS_MAX_RETRIES:
+                logger.warning(f'met some issues when try to initialize tables, '
+                               f'would go to {retries + 1} retry')
+                time.sleep(10)
+                retries += 1
+            else:
+                raise
+        else:
+            break
